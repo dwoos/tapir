@@ -33,7 +33,7 @@ LDFLAGS += $(LIBSSL_LDFLAGS)
 
 
 # Google test framework. This doesn't use pkgconfig
-GTEST_DIR := /usr/src/gtest
+GTEST_DIR := /usr/local/src/googletest/googletest
 
 # Additional flags
 PARANOID = 1
@@ -220,7 +220,7 @@ GTEST_INTERNAL_SRCS := $(wildcard $(GTEST_DIR)/src/*.cc)
 GTEST_OBJS := $(patsubst %.cc,.obj/gtest/%.o,$(notdir $(GTEST_INTERNAL_SRCS)))
 
 $(GTEST_OBJS): .obj/gtest/%.o: $(GTEST_DIR)/src/%.cc
-	$(call compilecxx,CC,-I$(GTEST_DIR) -Wno-missing-field-initializers)
+	$(call compilecxx,CC,-I$(GTEST_DIR) -isystem $(GTEST_DIR)/include -Wno-missing-field-initializers)
 
 $(GTEST) : .obj/gtest/gtest-all.o
 	$(call trace,AR,$@,$(AR) $(ARFLAGS) $@ $^)
